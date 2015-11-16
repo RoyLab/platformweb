@@ -1,4 +1,4 @@
-﻿package com.publisher.dbutil;
+﻿package com.publisher.dbutils;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -15,9 +15,7 @@ public class DbUtil {
 	private static String jdbcName = "com.mysql.jdbc.Driver";
 
 	public static Connection getCon()throws Exception{
-		System.out.println("fdasaf");
 		Class.forName(jdbcName);
-		System.out.println("fdasaf");
 		Connection con=DriverManager.getConnection(dbUrl, dbUserName, dbPassword);
 		return con;
 	}

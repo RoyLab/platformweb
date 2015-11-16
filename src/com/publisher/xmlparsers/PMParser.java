@@ -1,4 +1,4 @@
-﻿package com.publisher.xmlparser;
+﻿package com.publisher.xmlparsers;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -26,7 +26,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.publisher.dbutil.DBWriter;
+import com.publisher.dbutils.DBWriter;
+import com.publisher.models.TreeViewDocBuilder;
+import com.sun.glass.ui.Application;
 
 public class PMParser {
 	
@@ -54,10 +56,34 @@ public class PMParser {
 		}
 	}
 	
-	public boolean updateContent() throws Exception{
+	public boolean initialize() throws Exception{
+		
+		if (!isValid()) return false;
+
+		File pmcFile = new File(dirName+pmcFileName);
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		Document doc = builder.parse(pmcFile);		
+		
+		if (doc == null) return false;
+		
+		loadDirectory(doc);
+		
+		List<String> itemList = getRequestedItemList(doc);
+		if (itemList == null) return false;
+		
+		List<File> fileList = getUpdatingFileList(itemList);
+		updateContent(fileList);
+				
+		return true;
+	}
 	
-		List<String> fileList = establishDirectory();
-		if (fileList == null) return false;
+	protected boolean isValid(){
+		return !(dirName.isEmpty() || pmcFileName.isEmpty());
+	}
+
+	// 检查项目是否存在对应文件，是否需要被更新
+	protected List<File> getUpdatingFileList(List<String> fileList){
 		
 		File dir = new File(dirName);
 		File[] xmls = dir.listFiles(new FilenameFilter(){
@@ -84,34 +110,13 @@ public class PMParser {
 			}
 			if (idx >= num) break;			
 		}
-//		for (File file:xmls){
-//			System.out.println(file.getName());
-//		}
-//		
-//		System.out.println("***********************************");
-//		for (String name: fileList){
-//			System.out.println(name);
-//		}
-//		
-//		for (File file:validFiles){
-//			System.out.println(file.getName());
-//		}
-//		
-		updateContent(validFiles);
-		return true;
+		return validFiles;		
 	}
-	
 	
 	// 打开pmc入口，读取所有的相关dm的名字
 	// TO-DO: 检查是否存在无法读取的文件，载入ServletContext
-	protected List<String> establishDirectory() throws Exception{
-		
-		if (!isValid()) return null;
-		
-		File pmcFile = new File(dirName+pmcFileName);
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder = factory.newDocumentBuilder();
-		Document doc = builder.parse(pmcFile);
+	protected List<String> getRequestedItemList(Document doc) throws Exception{
+
 		
 		// 取得pmc的名字
 		String pmcName = "";
@@ -155,7 +160,7 @@ public class PMParser {
 			}
 		}
 		//ParseDocument(doc, result);
-		LoadIntoServletContext(doc);
+		//LoadIntoServletContext(doc);
 		
 		return result;
 	}
@@ -164,7 +169,6 @@ public class PMParser {
 		
 		DBWriter dbWriter = null;
 		try {
-			System.out.println("fdafdsfa");
 			dbWriter = new DBWriter();
 		} catch (Exception e) {
 			dbWriter.destroy();
@@ -181,56 +185,17 @@ public class PMParser {
 		return true;
 	}
 
-	protected void LoadIntoServletContext(Node node) throws TransformerException{
+	protected void loadDirectory(Document doc) throws TransformerException {
+		
+		Document newDoc = TreeViewDocBuilder.createTreeViewDoc(doc);
+		
 		TransformerFactory tf = TransformerFactory.newInstance();
 		Transformer t = tf.newTransformer();
 		t.setOutputProperty("encoding","utf-8");	
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		t.transform(new DOMSource(node), new StreamResult(bos));
-		@SuppressWarnings("unused")
+		t.transform(new DOMSource(newDoc), new StreamResult(bos));
 		String xmlStr = bos.toString();
-		//System.out.println(xmlStr);
-	}
-
-	protected void ParseDocument(Document doc, List<File> list){
 		
-		// 取得第一个目录pmentry节点
-		Node content = doc.getElementsByTagName("content").item(0);
-		Node curNode = content.getFirstChild();
-		while (curNode.getNodeName() != "pmentry" &&
-				curNode.getNextSibling() != null)
-			curNode = curNode.getNextSibling();
 		
-		if (curNode.getNodeName() != "pmentry") return;
-		
-		NodeList nl = curNode.getChildNodes();
-		for (int i = 0; i < nl.getLength(); i++){
-			Node node1 = nl.item(i);			
-			if (node1.getNodeName() == "#text") continue;
-
-			String name = node1.getNodeName();
-			switch (name){
-			case "refdm":
-				ParseRefdm(node1, list);
-				break;
-			case "pmentry":
-				//ParsePmentry(node1, list);
-				break;
-			case "title":
-				// TO-DO:
-				break;
-			default:
-				System.err.println("unexpected token: "+name);
-				break;
-			}
-		}
-	}
-	
-	protected void ParseRefdm(Node node, List<File> list){
-		// TO-DO
-	}
-	
-	protected boolean isValid(){
-		return !(dirName.isEmpty() || pmcFileName.isEmpty());
 	}
 }

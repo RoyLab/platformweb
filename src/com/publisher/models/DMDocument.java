@@ -1,4 +1,4 @@
-package com.publisher.model;
+package com.publisher.models;
 
 import com.publisher.Config;
 

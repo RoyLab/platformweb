@@ -1,4 +1,4 @@
-package com.publisher.dbutil;
+package com.publisher.dbutils;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,8 +13,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import com.publisher.Config;
-import com.publisher.model.DMDocument;
-import com.publisher.xmlparser.DMParser;
+import com.publisher.models.DMDocument;
+import com.publisher.xmlparsers.DMParser;
 
 public class DBWriter {
 	

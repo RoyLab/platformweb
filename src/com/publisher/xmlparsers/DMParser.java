@@ -1,4 +1,4 @@
-package com.publisher.xmlparser;
+package com.publisher.xmlparsers;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +16,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.publisher.Config;
-import com.publisher.model.DMDocument;
+import com.publisher.models.DMDocument;
 
 public class DMParser {
 	

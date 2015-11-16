@@ -1,6 +1,15 @@
-package com.publisher.model;
+package com.publisher.models;
 
-public class TreeViewData {
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+public class TreeViewDocBuilder {
+	
+	public static Document createTreeViewDoc(Document raw){
+		
+		
+		return null;
+	}
 	
 	public class Node{
 		
@@ -9,6 +18,11 @@ public class TreeViewData {
 		
 		public Node(String t, String h){
 			text = t;
+			
+			Document doc = null;
+			Element element = doc.createElement("directory");
+		
+			
 		}
 
 		public int getChildNum(){
