@@ -40,7 +40,7 @@ public class DMParser {
 		doc = builder.parse(file);
 
 		DMDocument dmDoc = new DMDocument();
-		dmDoc.setDmc(file.getName().replace(".xml", ""));
+		dmDoc.setDmc(file.getName().substring(4,32).replaceAll("-", ""));
 		dmDoc.setModified(getModifiedTime(file));
 		
 		Node content = doc.getElementsByTagName("content").item(0);

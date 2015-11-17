@@ -29,6 +29,8 @@ import org.xml.sax.SAXException;
 import com.publisher.Config;
 import com.publisher.dbutils.DBWriter;
 import com.publisher.models.TreeViewDocBuilder;
+import com.publisher.ux.AsciiSaveUtil;
+import com.publisher.ux.OperateXMLByDOM;
 import com.sun.glass.ui.Application;
 
 public class PMParser {
@@ -70,17 +72,41 @@ public class PMParser {
 		
 		loadDirectory(doc);
 		
-		/*List<String> itemList = getRequestedItemList(doc);
-		if (itemList == null) return false;
-		
-		List<File> fileList = getUpdatingFileList(itemList);
-		updateContent(fileList);*/
+//		List<String> itemList = getRequestedItemList(doc);
+//		if (itemList == null) return false;
+//		
+//		List<File> fileList = getUpdatingFileList(itemList);
+//		updateContent(fileList);
 				
 		return true;
 	}
 	
 	protected boolean isValid(){
 		return !(dirName.isEmpty() || pmcFileName.isEmpty());
+	}
+
+	protected String getPMName(Document doc){
+		// 取得pmc的名字
+		String pmcName = "";
+		if (doc != null){
+			NodeList pmc = doc.getElementsByTagName("pmc");
+			if (pmc == null || pmc.getLength() != 1) 
+				return null;
+			
+			NodeList pmcContent = pmc.item(0).getChildNodes();
+			for (int i = 0; i < pmcContent.getLength(); i++){
+				if (pmcContent.item(i).getNodeName() == "#text") continue;
+				pmcName += pmcContent.item(i).getTextContent() + "-";
+			}
+			
+			NodeList pmtitle = doc.getElementsByTagName("pmtitle");
+			if (pmtitle == null || pmtitle.getLength() != 1) 
+				return null;
+			pmcName += pmtitle.item(0).getTextContent();
+		}
+		
+		System.out.println("出版物名称为: " + pmcName);
+		return pmcName;
 	}
 
 	// 检查项目是否存在对应文件，是否需要被更新
@@ -112,30 +138,6 @@ public class PMParser {
 			if (idx >= num) break;			
 		}
 		return validFiles;		
-	}
-	
-	protected String getPMName(Document doc){
-		// 取得pmc的名字
-		String pmcName = "";
-		if (doc != null){
-			NodeList pmc = doc.getElementsByTagName("pmc");
-			if (pmc == null || pmc.getLength() != 1) 
-				return null;
-			
-			NodeList pmcContent = pmc.item(0).getChildNodes();
-			for (int i = 0; i < pmcContent.getLength(); i++){
-				if (pmcContent.item(i).getNodeName() == "#text") continue;
-				pmcName += pmcContent.item(i).getTextContent() + "-";
-			}
-			
-			NodeList pmtitle = doc.getElementsByTagName("pmtitle");
-			if (pmtitle == null || pmtitle.getLength() != 1) 
-				return null;
-			pmcName += pmtitle.item(0).getTextContent();
-		}
-		
-		System.out.println("出版物名称为: " + pmcName);
-		return pmcName;
 	}
 	
 	// 打开pmc入口，读取所有的相关dm的名字
@@ -187,15 +189,10 @@ public class PMParser {
 
 	protected void loadDirectory(Document doc) throws TransformerException, ParserConfigurationException {
 		
-		Document newDoc = TreeViewDocBuilder.createTreeViewDoc(doc);
-		
-		TransformerFactory tf = TransformerFactory.newInstance();
-		Transformer t = tf.newTransformer();
-		t.setOutputProperty("encoding","utf-8");	
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		t.transform(new DOMSource(newDoc), new StreamResult(bos));
-		String xmlStr = bos.toString();
-
+		TreeViewDocBuilder builder = new TreeViewDocBuilder();
+		Document newDoc = builder.createTreeViewDoc(doc);
+		String xmlStr = OperateXMLByDOM.doc2FormatString(newDoc);
 		Config.getServletContext().setAttribute("dirObj", xmlStr);
+		AsciiSaveUtil.saveAscii("C:\\Users\\RUI\\Desktop\\test.xml", xmlStr);
 	}
 }
