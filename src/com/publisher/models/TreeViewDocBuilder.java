@@ -1,11 +1,23 @@
 package com.publisher.models;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import com.publisher.Config;
 
 public class TreeViewDocBuilder {
 	
-	public static Document createTreeViewDoc(Document raw){
+	public static Document createTreeViewDoc(Document raw) throws ParserConfigurationException{
+	
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		Document result = builder.newDocument();
+		
 		
 		
 		return null;

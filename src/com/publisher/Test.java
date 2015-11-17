@@ -18,7 +18,6 @@ public class Test {
 		try {
 			pm.initialize();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -28,7 +27,6 @@ public class Test {
 			System.out.println(searchEngine.fullTextSearch("飞机"));
 			searchEngine.destroy();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

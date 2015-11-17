@@ -26,6 +26,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.publisher.Config;
 import com.publisher.dbutils.DBWriter;
 import com.publisher.models.TreeViewDocBuilder;
 import com.sun.glass.ui.Application;
@@ -63,17 +64,17 @@ public class PMParser {
 		File pmcFile = new File(dirName+pmcFileName);
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
-		Document doc = builder.parse(pmcFile);		
+		Document doc = builder.parse(pmcFile);
 		
 		if (doc == null) return false;
 		
 		loadDirectory(doc);
 		
-		List<String> itemList = getRequestedItemList(doc);
+		/*List<String> itemList = getRequestedItemList(doc);
 		if (itemList == null) return false;
 		
 		List<File> fileList = getUpdatingFileList(itemList);
-		updateContent(fileList);
+		updateContent(fileList);*/
 				
 		return true;
 	}
@@ -113,11 +114,7 @@ public class PMParser {
 		return validFiles;		
 	}
 	
-	// 打开pmc入口，读取所有的相关dm的名字
-	// TO-DO: 检查是否存在无法读取的文件，载入ServletContext
-	protected List<String> getRequestedItemList(Document doc) throws Exception{
-
-		
+	protected String getPMName(Document doc){
 		// 取得pmc的名字
 		String pmcName = "";
 		if (doc != null){
@@ -138,8 +135,13 @@ public class PMParser {
 		}
 		
 		System.out.println("出版物名称为: " + pmcName);
+		return pmcName;
+	}
+	
+	// 打开pmc入口，读取所有的相关dm的名字
+	// TO-DO: 检查是否存在无法读取的文件，载入ServletContext
+	protected List<String> getRequestedItemList(Document doc) throws Exception{
 		
-		// 取得文件列表
 		ArrayList<String> result = new ArrayList<String>();
 		NodeList refdms = doc.getElementsByTagName("refdm");
 		for (int i = 0; i < refdms.getLength(); i++){
@@ -159,8 +161,6 @@ public class PMParser {
 				result.add(dmName);
 			}
 		}
-		//ParseDocument(doc, result);
-		//LoadIntoServletContext(doc);
 		
 		return result;
 	}
@@ -185,7 +185,7 @@ public class PMParser {
 		return true;
 	}
 
-	protected void loadDirectory(Document doc) throws TransformerException {
+	protected void loadDirectory(Document doc) throws TransformerException, ParserConfigurationException {
 		
 		Document newDoc = TreeViewDocBuilder.createTreeViewDoc(doc);
 		
@@ -195,7 +195,7 @@ public class PMParser {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		t.transform(new DOMSource(newDoc), new StreamResult(bos));
 		String xmlStr = bos.toString();
-		
-		
+
+		Config.getServletContext().setAttribute("dirObj", xmlStr);
 	}
 }
