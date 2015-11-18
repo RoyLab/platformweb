@@ -11,7 +11,16 @@ public class DMDocument {
 	private int security;
 	private String language;
 	private String associateFile;
+	private String xmlcontent;
 	
+	public String getXmlcontent() {
+		return xmlcontent;
+	}
+
+	public void setXmlcontent(String xmlcontent) {
+		this.xmlcontent = xmlcontent;
+	}
+
 	public String getAssociateFile() {
 		return associateFile;
 	}

@@ -4,6 +4,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import com.publisher.Config;
+import com.publisher.dbutils.SearchEngine;
 import com.publisher.xmlparsers.PMParser;
 
 public class MyContextListener implements ServletContextListener {
@@ -16,6 +17,13 @@ public class MyContextListener implements ServletContextListener {
 		PMParser pm = new PMParser("D:\\eclipse\\jdbctest2\\xml");//规定xml的路径
 		try {
 			pm.initialize();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			SearchEngine searchEngine = new SearchEngine();
+			System.out.println(searchEngine.fullTextSearch("发动机"));
+			searchEngine.destroy();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -17,6 +17,7 @@ import org.xml.sax.SAXException;
 
 import com.publisher.Config;
 import com.publisher.models.DMDocument;
+import com.publisher.ux.OperateXMLByDOM;
 
 public class DMParser {
 	
@@ -29,7 +30,6 @@ public class DMParser {
 			file = null;
 		}
 	}
-	
 
 	public DMDocument parse() throws SAXException, IOException, ParserConfigurationException{
 		
@@ -45,6 +45,8 @@ public class DMParser {
 		
 		Node content = doc.getElementsByTagName("content").item(0);
 		dmDoc.setContent(getTextContent(content));
+		
+		dmDoc.setXmlcontent(OperateXMLByDOM.doc2FormatString(doc));
 		
 		dmDoc.setSecurity(1);
 		dmDoc.setLanguage("zh_CN");

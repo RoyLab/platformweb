@@ -25,6 +25,7 @@ public class DBWriter {
 			  "`dmc` varchar(128) DEFAULT NULL,"+
 			  "`modified` datetime NOT NULL DEFAULT '2000-01-01 11:11:11',"+
 			  "`content` text,"+
+			  "`xml` text,"+
 			  "`security` int(11) DEFAULT NULL,"+
 			  "`language` varchar(10) DEFAULT NULL,"+
 			  "`associateFile` varchar(256) NOT NULL,"+
@@ -49,7 +50,7 @@ public class DBWriter {
 	
 	private static String sqlDropTableTemplate = "DROP TABLE IF EXISTS t_?;";
 
-	private static String sqlInsertMain="insert into t_main values(null,?,?,?,?,?,?);";
+	private static String sqlInsertMain="insert into t_main values(null,?,?,?,?,?,?,?);";
 	private static String sqlInsertTemplate="insert into t_? values(null,?,?);";
 	private static String sqlQueryDMId="select Id from t_main where dmc=?;";
 	
@@ -96,9 +97,10 @@ public class DBWriter {
 			pstmt.setString(1, dmDoc.getDmc());
 			pstmt.setString(2, dmDoc.getModified());
 			pstmt.setString(3, dmDoc.getContent());
-			pstmt.setInt(4, dmDoc.getSecurity());
-			pstmt.setString(5, dmDoc.getLanguage());
-			pstmt.setString(6, dmDoc.getAssociateFile());
+			pstmt.setString(4, dmDoc.getXmlcontent());
+			pstmt.setInt(5, dmDoc.getSecurity());
+			pstmt.setString(6, dmDoc.getLanguage());
+			pstmt.setString(7, dmDoc.getAssociateFile());
 			pstmt.executeUpdate();
 			pstmt.close();
 			

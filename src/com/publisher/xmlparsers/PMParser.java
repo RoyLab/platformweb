@@ -72,11 +72,11 @@ public class PMParser {
 		
 		loadDirectory(doc);
 		
-//		List<String> itemList = getRequestedItemList(doc);
-//		if (itemList == null) return false;
-//		
-//		List<File> fileList = getUpdatingFileList(itemList);
-//		updateContent(fileList);
+		List<String> itemList = getRequestedItemList(doc);
+		if (itemList == null) return false;
+		
+		List<File> fileList = getUpdatingFileList(itemList);
+		updateContent(fileList);
 				
 		return true;
 	}
