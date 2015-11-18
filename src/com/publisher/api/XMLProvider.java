@@ -32,6 +32,6 @@ public class XMLProvider {
 	}
 	
 	public String getXMLDirectoryData(){
-		return (String) Config.getServletContext().getAttribute("dirObj");
+		return (String) Config.getServletContext().getAttribute("xmldirectory");
 	}
 }

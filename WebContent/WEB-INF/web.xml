@@ -10,7 +10,25 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   
-  <listener>
- <listener-class>com.publisher.listeners.PublisherListener</listener-class>
+<listener>
+	<listener-class>com.publisher.listeners.PublisherListener</listener-class>
 </listener>
+
+<servlet>
+    <servlet-name>Test</servlet-name>
+    <servlet-class>com.publisher.servlets.Test</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>Test</servlet-name>
+    <url-pattern>/test</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>Directory</servlet-name>
+    <servlet-class>com.publisher.servlets.Directory</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>Directory</servlet-name>
+    <url-pattern>/dir</url-pattern>
+</servlet-mapping>
 </web-app>

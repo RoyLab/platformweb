@@ -9,6 +9,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
 import java.io.Reader;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.LinkedList;
 
 public class ReadFromFile {
 	
@@ -186,6 +190,70 @@ public class ReadFromFile {
             e.printStackTrace();
         }
     }
+    
+	public File[] parseDirectory(String path){
+		
+		File file = new File(path);
+		if (file.exists() && file.isDirectory()) {
+			 return file.listFiles();
+		} else {
+			System.err.println("文件不存在或不是一个目录名");
+		}
+		return null;
+	}
+	
+	public static void traverseFolder1(String path) {
+		int fileNum = 0, folderNum = 0;
+		File file = new File(path);
+		if (file.exists()) {
+			LinkedList<File> list = new LinkedList<File>();
+			File[] files = file.listFiles();
+			for (File file2 : files) {
+				if (file2.isDirectory()) {
+					System.out.println("文件??" + file2.getAbsolutePath());
+					list.add(file2);
+					
+					getModifiedTime(file2.getAbsolutePath());
+					fileNum++;
+				} else {
+					System.out.println("文件:" + file2.getAbsolutePath());
+					folderNum++;
+				}
+			}
+			File temp_file;
+			while (!list.isEmpty()) {
+				temp_file = list.removeFirst();
+				files = temp_file.listFiles();
+				if (files == null) 				System.out.println(temp_file);
+
+				for (File file2 : files) {
+					if (file2.isDirectory()) {
+						System.out.println("文件??" + file2.getAbsolutePath());
+						list.add(file2);
+						fileNum++;
+					} else {
+						System.out.println("文件:" + file2.getAbsolutePath());
+						folderNum++;
+					}
+				}
+			}
+		} else {
+			System.out.println("文件不存??");
+		}
+		System.out.println("文件夹共??" + folderNum + ",文件共有:" + fileNum);
+
+	}
+	
+	public static void getModifiedTime(String path){
+		
+		File file = new File(path);
+		long time = file.lastModified();
+		Date d = new Date(time);
+		Format simpleFormat = new SimpleDateFormat("E dd MMM yyyy hh:mm:ss a");
+		String dateString = simpleFormat.format(d);
+		System.err.println(file.getName()+" 最后修改时间："+dateString);		
+	}
+
 
     public static void main(String[] args) {
         String fileName = "C:/temp/newTemp.txt";

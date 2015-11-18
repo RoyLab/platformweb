@@ -66,11 +66,13 @@ public class PMParser {
 		
 		loadDirectory(doc);
 		
-		List<String> itemList = getRequestedItemList(doc);
-		if (itemList == null) return false;
-		
-		List<File> fileList = getUpdatingFileList(itemList);
-		return updateContent(fileList);
+//		TODO for test only.
+//		List<String> itemList = getRequestedItemList(doc);
+//		if (itemList == null) return false;
+//		
+//		List<File> fileList = getUpdatingFileList(itemList);
+//		updateContent(fileList);
+		return true;
 	}
 	
 	protected boolean isValid(){
@@ -178,7 +180,7 @@ public class PMParser {
 		TreeViewDocBuilder builder = new TreeViewDocBuilder();
 		Document newDoc = builder.createTreeViewDoc(doc);
 		String xmlStr = OperateXMLByDOM.doc2FormatString(newDoc);
-		Config.getServletContext().setAttribute("dirObj", xmlStr);
+		Config.getServletContext().setAttribute("xmldirectory", xmlStr);
 		AsciiSaveUtil.saveAscii("C:\\Users\\RUI\\Desktop\\test.xml", xmlStr);
 	}
 }
