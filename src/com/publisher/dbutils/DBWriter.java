@@ -54,7 +54,7 @@ public class DBWriter {
 	private static String sqlInsertTemplate="insert into t_? values(null,?,?);";
 	private static String sqlQueryDMId="select Id from t_main where dmc=?;";
 	
-	public DBWriter() throws Exception {
+	public DBWriter(){
 		con = DbUtil.getCon();
 	}
 

@@ -4,10 +4,9 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import com.publisher.Config;
-import com.publisher.dbutils.SearchEngine;
 import com.publisher.xmlparsers.PMParser;
 
-public class MyContextListener implements ServletContextListener {
+public class PublisherListener implements ServletContextListener {
 	
 	public void contextInitialized(ServletContextEvent event) {
 	 
@@ -20,13 +19,14 @@ public class MyContextListener implements ServletContextListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		try {
-			SearchEngine searchEngine = new SearchEngine();
-			System.out.println(searchEngine.fullTextSearch("发动机"));
-			searchEngine.destroy();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			SearchEngine searchEngine = new SearchEngine();
+//			System.out.println(searchEngine.combSearch("机", "figure"));
+//			System.out.println("fulltext:\n"+searchEngine.fullTextSearch("发动机"));
+//			searchEngine.destroy();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	public void contextDestroyed(ServletContextEvent event) {

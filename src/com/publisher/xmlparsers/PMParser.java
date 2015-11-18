@@ -1,6 +1,5 @@
 ﻿package com.publisher.xmlparsers;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -15,11 +14,7 @@ import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -31,7 +26,6 @@ import com.publisher.dbutils.DBWriter;
 import com.publisher.models.TreeViewDocBuilder;
 import com.publisher.ux.AsciiSaveUtil;
 import com.publisher.ux.OperateXMLByDOM;
-import com.sun.glass.ui.Application;
 
 public class PMParser {
 	
@@ -76,9 +70,7 @@ public class PMParser {
 		if (itemList == null) return false;
 		
 		List<File> fileList = getUpdatingFileList(itemList);
-		updateContent(fileList);
-				
-		return true;
+		return updateContent(fileList);
 	}
 	
 	protected boolean isValid(){
@@ -167,16 +159,10 @@ public class PMParser {
 		return result;
 	}
 	
-	protected boolean updateContent(List<File> fileList) throws SQLException, SAXException, IOException, ParserConfigurationException{
+	protected boolean updateContent(List<File> fileList) throws SQLException, SAXException, IOException, ParserConfigurationException {
 		
-		DBWriter dbWriter = null;
-		try {
-			dbWriter = new DBWriter();
-		} catch (Exception e) {
-			dbWriter.destroy();
-			e.printStackTrace();
-			return false;
-		}
+		DBWriter dbWriter = new DBWriter();
+		
 		dbWriter.initTables();
 		for (File file: fileList){
 			System.out.println("Insert DM: "+file);

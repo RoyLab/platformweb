@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 
-import com.publisher.dbutils.SearchEngine;
+import com.publisher.api.SearchEngine;
 import com.publisher.xmlparsers.PMParser;
 
 public class Test {

@@ -3,20 +3,29 @@
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.mysql.jdbc.PreparedStatement;
+import com.publisher.ux.PropertiesUtil;
 
 public class DbUtil {
 
-	private static String dbUrl = "jdbc:mysql://127.0.0.1:3306/db_pm";
-	private static String dbUserName = "root";
-	private static String dbPassword = "609330246";
+//	private static String dbUrl = "jdbc:mysql://127.0.0.1:3306/db_pm";
+//	private static String dbUserName = "root";
+//	private static String dbPassword = "609330246";
 	private static String jdbcName = "com.mysql.jdbc.Driver";
 
-	public static Connection getCon()throws Exception{
-		Class.forName(jdbcName);
-		Connection con=DriverManager.getConnection(dbUrl, dbUserName, dbPassword);
+	public static Connection getCon(){
+		Connection con=null;
+		try {
+			System.out.println("url:"+PropertiesUtil.getValue("dbUrl"));
+			Class.forName(jdbcName);
+			con=DriverManager.getConnection(PropertiesUtil.getValue("dbUrl"), PropertiesUtil.getValue("dbUserName"), PropertiesUtil.getValue("dbPassword"));
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return con;
 	}
 	
