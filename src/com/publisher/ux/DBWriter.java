@@ -1,4 +1,4 @@
-package com.publisher.dbutils;
+package com.publisher.ux;
 
 import java.io.File;
 import java.io.IOException;

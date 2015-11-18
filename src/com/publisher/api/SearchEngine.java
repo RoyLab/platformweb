@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.publisher.dbutils.DbUtil;
+import com.publisher.ux.DbUtil;
 
 public class SearchEngine {
 	

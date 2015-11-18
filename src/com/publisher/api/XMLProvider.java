@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.publisher.Config;
-import com.publisher.dbutils.DbUtil;
+import com.publisher.ux.DbUtil;
 
 public class XMLProvider {
 

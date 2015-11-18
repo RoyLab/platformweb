@@ -1,4 +1,4 @@
-﻿package com.publisher.dbutils;
+﻿package com.publisher.ux;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.mysql.jdbc.PreparedStatement;
-import com.publisher.ux.PropertiesUtil;
 
 public class DbUtil {
 
@@ -19,7 +18,6 @@ public class DbUtil {
 	public static Connection getCon(){
 		Connection con=null;
 		try {
-			System.out.println("url:"+PropertiesUtil.getValue("dbUrl"));
 			Class.forName(jdbcName);
 			con=DriverManager.getConnection(PropertiesUtil.getValue("dbUrl"), PropertiesUtil.getValue("dbUserName"), PropertiesUtil.getValue("dbPassword"));
 		} catch (ClassNotFoundException | SQLException e) {
