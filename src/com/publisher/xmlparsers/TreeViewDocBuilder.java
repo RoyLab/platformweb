@@ -1,4 +1,4 @@
-package com.publisher.models;
+package com.publisher.xmlparsers;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

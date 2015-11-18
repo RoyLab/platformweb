@@ -11,7 +11,7 @@
   </welcome-file-list>
   
 <listener>
-	<listener-class>com.publisher.listeners.PublisherListener</listener-class>
+	<listener-class>com.publisher.PublisherListener</listener-class>
 </listener>
 
 <servlet>

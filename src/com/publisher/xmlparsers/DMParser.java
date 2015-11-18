@@ -16,7 +16,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.publisher.Config;
-import com.publisher.models.DMDocument;
+import com.publisher.DMDocument;
 import com.publisher.ux.OperateXMLByDOM;
 
 public class DMParser {

@@ -1,6 +1,4 @@
-package com.publisher.models;
-
-import com.publisher.Config;
+package com.publisher;
 
 public class DMDocument {
 	

@@ -1,9 +1,8 @@
-package com.publisher.listeners;
+package com.publisher;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import com.publisher.Config;
 import com.publisher.api.SearchEngine;
 import com.publisher.xmlparsers.PMParser;
 

@@ -13,7 +13,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import com.publisher.Config;
-import com.publisher.models.DMDocument;
+import com.publisher.DMDocument;
 import com.publisher.xmlparsers.DMParser;
 
 public class DBWriter {
