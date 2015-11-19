@@ -23,6 +23,7 @@ public class DBWriter {
 	private static String sqlCreateTableMain = "CREATE TABLE `t_main` ("+
 			  "`id` int(11) NOT NULL AUTO_INCREMENT,"+
 			  "`dmc` varchar(128) DEFAULT NULL,"+
+			  "`name` varchar(128) DEFAULT NULL," + 
 			  "`modified` datetime NOT NULL DEFAULT '2000-01-01 11:11:11',"+
 			  "`content` text,"+
 			  "`html` text,"+
@@ -50,7 +51,7 @@ public class DBWriter {
 	
 	private static String sqlDropTableTemplate = "DROP TABLE IF EXISTS t_?;";
 
-	private static String sqlInsertMain="insert into t_main values(null,?,?,?,?,?,?,?);";
+	private static String sqlInsertMain="insert into t_main values(null,?,?,?,?,?,?,?,?);";
 	private static String sqlInsertTemplate="insert into t_? values(null,?,?);";
 	private static String sqlQueryDMId="select Id from t_main where dmc=?;";
 	
@@ -68,7 +69,6 @@ public class DBWriter {
 		
 		pstmt.executeUpdate(sqlCreateTableMain);
 		for (int i = 0; i < Config.SEARCH_CLASS.length; i++){
-			//System.out.println(sqlCreateTableContentTemplate.replaceAll("\\?", sqlTableClasification[i]));
 			pstmt.executeUpdate(sqlCreateTableContentTemplate.replaceAll("\\?", Config.SEARCH_CLASS[i]));
 		}
 		pstmt.close();
@@ -95,12 +95,13 @@ public class DBWriter {
 			con.setAutoCommit(false);
 			PreparedStatement pstmt=con.prepareStatement(sqlInsertMain);
 			pstmt.setString(1, dmDoc.getDmc());
-			pstmt.setString(2, dmDoc.getModified());
-			pstmt.setString(3, dmDoc.getContent());
-			pstmt.setString(4, dmDoc.getXmlcontent());
-			pstmt.setInt(5, dmDoc.getSecurity());
-			pstmt.setString(6, dmDoc.getLanguage());
-			pstmt.setString(7, dmDoc.getAssociateFile());
+			pstmt.setString(2, dmDoc.getName());
+			pstmt.setString(3, dmDoc.getModified());
+			pstmt.setString(4, dmDoc.getContent());
+			pstmt.setString(5, dmDoc.getHtml());
+			pstmt.setInt(6, dmDoc.getSecurity());
+			pstmt.setString(7, dmDoc.getLanguage());
+			pstmt.setString(8, dmDoc.getAssociateFile());
 			pstmt.executeUpdate();
 			pstmt.close();
 			

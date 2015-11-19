@@ -43,6 +43,9 @@ public class DMParser {
 
 		DmDbDoc dmDoc = new DmDbDoc();
 		dmDoc.setDmc(file.getName().substring(4,32).replaceAll("-", ""));
+		dmDoc.setName(doc.getElementsByTagName("techname").item(0).getTextContent()+" - "+
+				doc.getElementsByTagName("infoname").item(0).getTextContent());
+		
 		dmDoc.setModified(getModifiedTime(file));
 		
 		Node content = doc.getElementsByTagName("content").item(0);
@@ -50,7 +53,7 @@ public class DMParser {
 		
 		HtmlConverterInterface converter = ConverterFactory.genConverter("");
 		String html = converter.convert(doc);
-		dmDoc.setHtmlcontent(html);
+		dmDoc.setHtml(html);
 		
 		dmDoc.setSecurity(1);
 		dmDoc.setLanguage("zh_CN");

@@ -11,12 +11,10 @@
 </head>
 <body>
 <div style="height:80%" id="dmContent">
-	<div align="center" class="dmodule_title">
-	N1 SET 外圈旋钮 － 控制与指示
-	</div>
 	<%
 	HtmlContainer ch = new HtmlContainer();
-	ch.getHtml(out, "SAMPLEA00000000A00CAA");// (String)request.getAttribute("dmc"));
+	//request这个页面的时候应该同时提交dmc参数，现在为了测试用的是固定值。
+	ch.writeHtml(out, "SAMPLEA00000000A018AA");// (String)request.getAttribute("dmc"));
 	ch.destroy();
 	%>	
 </div>

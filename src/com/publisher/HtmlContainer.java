@@ -12,6 +12,14 @@ import com.publisher.utils.DbUtil;
 
 // TODO
 public class HtmlContainer {
+
+	private static String sqlContentQuery = "select name,html from t_main where dmc=?;";
+	private Connection con = null;
+	
+	public HtmlContainer() throws Exception {
+		con = DbUtil.getCon();
+	}
+	
 	
 	// 缓冲示例
 //    String s = 
@@ -32,42 +40,37 @@ public class HtmlContainer {
 //    	    Node rootElement = d.getDocumentElement();
 //    	    System.out.println(nodeToString(rootElement));
 	
-	public void getHtml(JspWriter out, String dmc){
+	public void writeHtml(JspWriter out, String dmc){
 		try {
-			try {
-				out.print("<div align=\"center\" class=\"dmodule_title\">"
-						+ "	这是来自jsp的输出"
-						+ "	</div>"+getHTMLContent(dmc));
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			out.flush();
+			String[] name = {"NULL"};
+			String content = getHTMLContent(dmc, name);
+			out.print("<div align=\"center\" class=\"dmodule_title\">"
+					+ name[0]
+					+ "	</div>");
+			
+			out.print(content);
+				
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
-	private static String sqlContentQuery = "select html from t_main where dmc=?;";
-	private Connection con = null;
-	
-	public HtmlContainer() throws Exception {
-		con = DbUtil.getCon();
-	}
-	
-	public void destroy() throws SQLException{
-		if (con != null) con.close();
-	}
-	
-	public String getHTMLContent(String dmc) throws SQLException{
+
+
+	public String getHTMLContent(String dmc, String[] name) throws SQLException{
 		PreparedStatement pstmt = con.prepareStatement(sqlContentQuery);
 		pstmt.setString(1, dmc);
 		ResultSet resultSet = pstmt.executeQuery();
 		if (resultSet.next()){
-			return resultSet.getString(1);
+			name[0]=resultSet.getString(1);
+			return resultSet.getString(2);
 		}
 		return "";
+	}
+
+
+	public void destroy() throws SQLException{
+		if (con != null) con.close();
 	}
 }

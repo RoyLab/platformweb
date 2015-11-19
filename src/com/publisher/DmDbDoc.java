@@ -4,6 +4,7 @@ public class DmDbDoc {
 	
 	private int id;
 	private String dmc;
+	private String name;
 	private String modified;
 	private String content;
 	private int security;
@@ -11,12 +12,20 @@ public class DmDbDoc {
 	private String associateFile;
 	private String html;
 	
-	public String getXmlcontent() {
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getHtml() {
 		return html;
 	}
 
-	public void setHtmlcontent(String xmlcontent) {
-		this.html = xmlcontent;
+	public void setHtml(String str) {
+		this.html = str;
 	}
 
 	public String getAssociateFile() {

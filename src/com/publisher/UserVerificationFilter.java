@@ -21,7 +21,7 @@ public class UserVerificationFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
-		System.out.println("filter working.");
+		System.out.println("verifying user access.");
 		chain.doFilter(request, response);
 	}
 
