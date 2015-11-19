@@ -45,11 +45,11 @@ public class TreeViewDocBuilder {
 			}
 			
 			if (item.getNodeName() == "refdm"){
-				Element textNode = doc.createElement("dm");
-				textNode.setAttribute("name", getDmtitle(item));
-				root.appendChild(textNode);
+				Element dm = doc.createElement("dm");
+				dm.setAttribute("name", getDmtitle(item));
+				root.appendChild(dm);
 				Text newNode = doc.createTextNode(getDMCText(item));
-				textNode.appendChild(newNode);
+				dm.appendChild(newNode);
 				continue;
 			}
 		}

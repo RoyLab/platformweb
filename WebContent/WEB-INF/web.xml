@@ -68,7 +68,6 @@
 	    <servlet-name>Test</servlet-name>
 	    <url-pattern>/test</url-pattern>
 	</servlet-mapping>
-	
 	<servlet>
 	    <servlet-name>Directory</servlet-name>
 	    <servlet-class>com.publisher.servlets.Directory</servlet-class>
@@ -76,5 +75,13 @@
 	<servlet-mapping>
 	    <servlet-name>Directory</servlet-name>
 	    <url-pattern>/dir</url-pattern>
+	</servlet-mapping>
+		<servlet>
+	    <servlet-name>CombSearch</servlet-name>
+	    <servlet-class>com.publisher.servlets.CombSearch</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>CombSearch</servlet-name>
+	    <url-pattern>/combsearch</url-pattern>
 	</servlet-mapping>
 </web-app>

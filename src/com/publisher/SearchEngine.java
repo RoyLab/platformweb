@@ -42,13 +42,15 @@ public class SearchEngine {
 		}
 		pstmt.close();
 		
+		if (ids == "")	return "";
+		
 		Statement pstmt2 = con.createStatement();
 		rs = pstmt2.executeQuery(sqlIdQuery.replaceFirst("\\?", ids.substring(0,ids.length()-1)));
 		String result = "";
 		while (rs.next()){
 			result += rs.getString(1)+",";
 		}
-		pstmt.close();
+		pstmt2.close();
 		return result;
 	}
 	

@@ -66,11 +66,11 @@ public class PMParser {
 		loadDirectory(doc);
 		
 //		TODO for test only.
-		List<String> itemList = getRequestedItemList(doc);
-		if (itemList == null) return false;
-		
-		List<File> fileList = getUpdatingFileList(itemList);
-		updateContent(fileList);
+//		List<String> itemList = getRequestedItemList(doc);
+//		if (itemList == null) return false;
+//		
+//		List<File> fileList = getUpdatingFileList(itemList);
+//		updateContent(fileList);
 		return true;
 	}
 	
@@ -166,12 +166,12 @@ public class PMParser {
 		
 		dbWriter.initTables();
 		//TODO debug
-		int count = 0;
+//		int count = 0;
 		for (File file: fileList){
-			count ++;
+//			count ++;
 			System.out.println("Insert DM: "+file);
 			dbWriter.addDM(file);
-			if (count > 5) break;
+//			if (count > 5) break;
 		}
 		
 		dbWriter.destroy();
