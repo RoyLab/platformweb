@@ -1,12 +1,11 @@
-package com.publisher.api;
+package com.publisher;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.publisher.Config;
-import com.publisher.ux.DbUtil;
+import com.publisher.utils.DbUtil;
 
 public class XMLProvider {
 

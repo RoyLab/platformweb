@@ -1,4 +1,4 @@
-package com.publisher.ux;
+package com.publisher.utils;
 
 import java.io.*;
 import java.net.URI;

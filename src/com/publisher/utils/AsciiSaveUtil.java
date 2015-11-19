@@ -1,4 +1,4 @@
-package com.publisher.ux;
+package com.publisher.utils;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

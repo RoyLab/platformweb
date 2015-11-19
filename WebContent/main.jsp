@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-啦啦啦啊了
+<h1>哈哈哈啊</h1>
+<%-- <%@include file="/content.jsp" %> --%>
+<jsp:include page="/content.jsp"></jsp:include>
 </body>
 </html>

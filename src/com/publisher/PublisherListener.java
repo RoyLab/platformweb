@@ -3,7 +3,6 @@ package com.publisher;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import com.publisher.api.SearchEngine;
 import com.publisher.xmlparsers.PMParser;
 
 public class PublisherListener implements ServletContextListener {

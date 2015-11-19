@@ -17,7 +17,7 @@ import org.xml.sax.SAXException;
 
 import com.publisher.Config;
 import com.publisher.DMDocument;
-import com.publisher.ux.OperateXMLByDOM;
+import com.publisher.utils.OperateXMLByDOM;
 
 public class DMParser {
 	
