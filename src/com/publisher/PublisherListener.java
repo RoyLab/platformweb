@@ -12,9 +12,9 @@ public class PublisherListener implements ServletContextListener {
 		// 初始化解析xml，放在服务器的初始化函数中。
 		Config.setServletContext(event.getServletContext());
 		
-		PMParser pm = new PMParser("D:\\eclipse\\jdbctest2\\xml");//规定xml的路径
+		PMParser pm = new PMParser(Config.getServletContext().getInitParameter("pmLocation"));//规定xml的路径
 		try {
-			pm.initialize();
+			pm.parse();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -22,6 +22,7 @@ public class PublisherListener implements ServletContextListener {
 			SearchEngine searchEngine = new SearchEngine();
 			System.out.println(searchEngine.combSearch("机", "figure"));
 			System.out.println("fulltext:\n"+searchEngine.fullTextSearch("发动机"));
+			System.out.println((String)event.getServletContext().getAttribute("jdbcName"));
 			searchEngine.destroy();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -10,6 +10,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
+import com.publisher.Config;
+
 public class TreeViewDocBuilder {
 	
 	public Document createTreeViewDoc(Document raw) throws ParserConfigurationException{
@@ -23,7 +25,7 @@ public class TreeViewDocBuilder {
 		
 		Node content = contents.item(0);
 		Node root = createPmentryNode(content, result);
-		((Element)root).setAttribute("name", "飞机测试数据源");
+		((Element)root).setAttribute("name", Config.getServletContext().getInitParameter("pmName"));
 		result.appendChild(root);
 				
 		return result;

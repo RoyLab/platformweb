@@ -1,34 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
-  <display-name>Publisher</display-name>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-  </welcome-file-list>
-  
-<listener>
-	<listener-class>com.publisher.PublisherListener</listener-class>
-</listener>
-
-<servlet>
-    <servlet-name>Test</servlet-name>
-    <servlet-class>com.publisher.servlets.Test</servlet-class>
-</servlet>
-<servlet-mapping>
-    <servlet-name>Test</servlet-name>
-    <url-pattern>/test</url-pattern>
-</servlet-mapping>
-
-<servlet>
-    <servlet-name>Directory</servlet-name>
-    <servlet-class>com.publisher.servlets.Directory</servlet-class>
-</servlet>
-<servlet-mapping>
-    <servlet-name>Directory</servlet-name>
-    <url-pattern>/dir</url-pattern>
-</servlet-mapping>
+	<display-name>Publisher</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+	<context-param>
+	    <param-name>jdbcName</param-name>
+	    <param-value>com.mysql.jdbc.Driver</param-value>
+	</context-param>
+	
+	<context-param>
+	    <param-name>dbUrl</param-name>
+	    <param-value>jdbc:mysql://127.0.0.1:3306/db_pm</param-value>
+	</context-param>
+	<context-param>
+	    <param-name>dbUserName</param-name>
+	    <param-value>root</param-value>
+	</context-param>
+	<context-param>
+	    <param-name>dbPassword</param-name>
+	    <param-value>609330246</param-value>
+	</context-param>
+	<context-param>
+		<param-name>language</param-name>
+		<param-value>zh_CN</param-value>
+	</context-param>
+	<context-param>
+		<param-name>pmLocation</param-name>
+		<param-value>D:/pubRes/xml</param-value>
+	</context-param>
+	<context-param>
+		<param-name>pmName</param-name>
+		<param-value>飞机测试数据源test</param-value>
+	</context-param>
+	<context-param>
+		<param-name>cssXml</param-name>
+		<param-value>D:/pubRes/TemplateStyle</param-value>
+	</context-param>
+	<context-param>
+		<param-name>cssSrc</param-name>
+		<param-value>D:/pubRes/TemplateStyle/style.css</param-value>
+	</context-param>
+	
+	<listener>
+		<listener-class>com.publisher.PublisherListener</listener-class>
+	</listener>
+	
+	<filter>
+		<filter-name>UserVerification</filter-name>
+		<filter-class>com.publisher.UserVerificationFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>UserVerification</filter-name>
+		<url-pattern>/*</url-pattern>	
+	</filter-mapping>
+	
+	<servlet>
+	    <servlet-name>Test</servlet-name>
+	    <servlet-class>com.publisher.servlets.Test</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>Test</servlet-name>
+	    <url-pattern>/test</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	    <servlet-name>Directory</servlet-name>
+	    <servlet-class>com.publisher.servlets.Directory</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>Directory</servlet-name>
+	    <url-pattern>/dir</url-pattern>
+	</servlet-mapping>
 </web-app>

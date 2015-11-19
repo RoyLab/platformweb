@@ -52,7 +52,7 @@ public class PMParser {
 		}
 	}
 	
-	public boolean initialize() throws Exception{
+	public boolean parse() throws Exception{
 		
 		if (!isValid()) return false;
 

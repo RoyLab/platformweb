@@ -18,10 +18,11 @@ public class UserVerificationFilter implements Filter {
 	}
 
 	@Override
-	public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
-
+		System.out.println("filter working.");
+		chain.doFilter(request, response);
 	}
 
 	@Override

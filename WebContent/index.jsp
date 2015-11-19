@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-啦啦啦啊了
+<%out.print(request.getServletContext().getInitParameter("jdbcName")); %>
 </body>
 </html>

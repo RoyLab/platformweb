@@ -6,20 +6,25 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.servlet.ServletContext;
+
 import com.mysql.jdbc.PreparedStatement;
+import com.publisher.Config;
 
 public class DbUtil {
 
 //	private static String dbUrl = "jdbc:mysql://127.0.0.1:3306/db_pm";
 //	private static String dbUserName = "root";
 //	private static String dbPassword = "609330246";
-	private static String jdbcName = "com.mysql.jdbc.Driver";
+//	private static String jdbcName = "com.mysql.jdbc.Driver";
 
 	public static Connection getCon(){
 		Connection con=null;
+		ServletContext ctx = Config.getServletContext();
 		try {
-			Class.forName(jdbcName);
-			con=DriverManager.getConnection(PropertiesUtil.getValue("dbUrl"), PropertiesUtil.getValue("dbUserName"), PropertiesUtil.getValue("dbPassword"));
+			Class.forName(ctx.getInitParameter("jdbcName"));
+			con=DriverManager.getConnection(ctx.getInitParameter("dbUrl"), 
+					ctx.getInitParameter("dbUserName"), ctx.getInitParameter("dbPassword"));
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
