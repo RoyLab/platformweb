@@ -3,8 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <%@page import="com.publisher.XMLProvider" %>
-    <%@page import="com.publisher.genhtml.*" %>
+    <%@page import="com.publisher.*" %>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="PRAGMA" content="no-cache">
     <link rel="STYLESHEET" type="text/css" href="<%=getServletContext().getInitParameter("cssSrc")%>">
@@ -16,9 +15,9 @@
 	N1 SET 外圈旋钮 － 控制与指示
 	</div>
 	<%
-	XMLProvider xmlprov = new XMLProvider(); 
-	String xml = xmlprov.getXMLContent((String)request.getAttribute("dmc"));
-	ContentHtml.genHtml(out, xml);
+	HtmlContainer ch = new HtmlContainer();
+	ch.getHtml(out, "SAMPLEA00000000A00CAA");// (String)request.getAttribute("dmc"));
+	ch.destroy();
 	%>	
 </div>
 <hr class="DmEnding" width="98%" align="center">

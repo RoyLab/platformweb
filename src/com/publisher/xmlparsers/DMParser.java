@@ -17,6 +17,8 @@ import org.xml.sax.SAXException;
 
 import com.publisher.Config;
 import com.publisher.DmDbDoc;
+import com.publisher.genhtml.ConverterFactory;
+import com.publisher.genhtml.HtmlConverterInterface;
 import com.publisher.utils.OperateXMLByDOM;
 
 public class DMParser {
@@ -46,7 +48,9 @@ public class DMParser {
 		Node content = doc.getElementsByTagName("content").item(0);
 		dmDoc.setContent(getTextContent(content));
 		
-		dmDoc.setXmlcontent(OperateXMLByDOM.doc2FormatString(doc));
+		HtmlConverterInterface converter = ConverterFactory.genConverter("");
+		String html = converter.convert(doc);
+		dmDoc.setHtmlcontent(html);
 		
 		dmDoc.setSecurity(1);
 		dmDoc.setLanguage("zh_CN");

@@ -25,7 +25,7 @@ public class DBWriter {
 			  "`dmc` varchar(128) DEFAULT NULL,"+
 			  "`modified` datetime NOT NULL DEFAULT '2000-01-01 11:11:11',"+
 			  "`content` text,"+
-			  "`xml` text,"+
+			  "`html` text,"+
 			  "`security` int(11) DEFAULT NULL,"+
 			  "`language` varchar(10) DEFAULT NULL,"+
 			  "`associateFile` varchar(256) NOT NULL,"+

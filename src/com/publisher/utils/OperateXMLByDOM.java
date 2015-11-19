@@ -59,6 +59,7 @@ public class OperateXMLByDOM {
 			doc = builder.parse(inputStream);
 			return doc;
 		} catch (Exception e) {
+			System.err.println(e);
 			return null;
 		} finally {
 			if (inputStream != null) {

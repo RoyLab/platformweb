@@ -165,9 +165,13 @@ public class PMParser {
 		DBWriter dbWriter = new DBWriter();
 		
 		dbWriter.initTables();
+		//TODO debug
+		int count = 0;
 		for (File file: fileList){
+			count ++;
 			System.out.println("Insert DM: "+file);
 			dbWriter.addDM(file);
+			if (count > 5) break;
 		}
 		
 		dbWriter.destroy();

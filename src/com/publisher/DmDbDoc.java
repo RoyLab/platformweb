@@ -9,14 +9,14 @@ public class DmDbDoc {
 	private int security;
 	private String language;
 	private String associateFile;
-	private String xmlcontent;
+	private String html;
 	
 	public String getXmlcontent() {
-		return xmlcontent;
+		return html;
 	}
 
-	public void setXmlcontent(String xmlcontent) {
-		this.xmlcontent = xmlcontent;
+	public void setHtmlcontent(String xmlcontent) {
+		this.html = xmlcontent;
 	}
 
 	public String getAssociateFile() {
