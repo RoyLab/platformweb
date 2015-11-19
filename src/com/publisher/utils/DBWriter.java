@@ -13,7 +13,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import com.publisher.Config;
-import com.publisher.DMDocument;
+import com.publisher.DmDbDoc;
 import com.publisher.xmlparsers.DMParser;
 
 public class DBWriter {
@@ -74,7 +74,7 @@ public class DBWriter {
 		pstmt.close();
 	}
 	
-	public int getDMId(DMDocument doc) throws SQLException{
+	public int getDMId(DmDbDoc doc) throws SQLException{
 		PreparedStatement pstmt = con.prepareStatement(sqlQueryDMId);
 		pstmt.setString(1, doc.getDmc());
 		ResultSet rs = pstmt.executeQuery();
@@ -89,7 +89,7 @@ public class DBWriter {
 		}
 		
 		DMParser dmParser = new DMParser(file.getAbsolutePath());
-		DMDocument dmDoc = dmParser.parse();
+		DmDbDoc dmDoc = dmParser.parse();
 		
 		try {
 			con.setAutoCommit(false);

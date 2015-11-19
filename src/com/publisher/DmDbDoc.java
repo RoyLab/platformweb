@@ -1,6 +1,6 @@
 package com.publisher;
 
-public class DMDocument {
+public class DmDbDoc {
 	
 	private int id;
 	private String dmc;

@@ -44,7 +44,7 @@
 	</context-param>
 	<context-param>
 		<param-name>cssSrc</param-name>
-		<param-value>D:/pubRes/TemplateStyle/style.css</param-value>
+		<param-value>./style.css</param-value>
 	</context-param>
 	
 	<listener>

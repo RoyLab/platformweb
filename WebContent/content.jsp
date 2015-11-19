@@ -11,12 +11,18 @@
 	<title>Content</title>
 </head>
 <body>
-<%
-XMLProvider xmlprov = new XMLProvider(); 
-String xml = xmlprov.getXMLContent((String)request.getAttribute("dmc"));
-ContentHtml.genHtml(out, xml);
-%>
+<div style="height:80%" id="dmContent">
+	<div align="center" class="dmodule_title">
+	N1 SET 外圈旋钮 － 控制与指示
+	</div>
+	<%
+	XMLProvider xmlprov = new XMLProvider(); 
+	String xml = xmlprov.getXMLContent((String)request.getAttribute("dmc"));
+	ContentHtml.genHtml(out, xml);
+	%>	
+</div>
 <hr class="DmEnding" width="98%" align="center">
 <div class="DmEnding" align="center" style="color:#6C6C6C;font-family:黑体; font-weight:bold;">数据模块结束</div>
+
 </body>
 </html>

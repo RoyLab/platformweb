@@ -16,7 +16,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.publisher.Config;
-import com.publisher.DMDocument;
+import com.publisher.DmDbDoc;
 import com.publisher.utils.OperateXMLByDOM;
 
 public class DMParser {
@@ -31,7 +31,7 @@ public class DMParser {
 		}
 	}
 
-	public DMDocument parse() throws SAXException, IOException, ParserConfigurationException{
+	public DmDbDoc parse() throws SAXException, IOException, ParserConfigurationException{
 		
 		Document doc = null;
 		
@@ -39,7 +39,7 @@ public class DMParser {
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		doc = builder.parse(file);
 
-		DMDocument dmDoc = new DMDocument();
+		DmDbDoc dmDoc = new DmDbDoc();
 		dmDoc.setDmc(file.getName().substring(4,32).replaceAll("-", ""));
 		dmDoc.setModified(getModifiedTime(file));
 		

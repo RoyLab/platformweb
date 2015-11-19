@@ -1,17 +1,28 @@
 package com.publisher.utils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.net.URI;
 
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
-import com.sun.org.apache.xml.internal.serialize.*;
+import com.sun.org.apache.xml.internal.serialize.OutputFormat;
+import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 /**
  * DOM方式操作XML
@@ -102,7 +113,7 @@ public class OperateXMLByDOM {
 	 * @param doc XML的Document对象
 	 * @return String
 	 */
-	public static String doc2String(Document doc){
+	public static String doc2String(Node doc){
 		try {
 			Source source = new DOMSource(doc);
 	        StringWriter stringWriter = new StringWriter();

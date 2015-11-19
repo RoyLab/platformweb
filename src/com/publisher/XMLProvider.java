@@ -10,7 +10,7 @@ import com.publisher.utils.DbUtil;
 public class XMLProvider {
 
 	private Connection con = null;
-	private static String sqlContentQuery = "select xml from t_main where dmc=?;";
+	private static String sqlContentQuery = "select location from t_main where dmc=?;";
 	
 	public XMLProvider() throws Exception {
 		con = DbUtil.getCon();
