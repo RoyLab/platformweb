@@ -17,7 +17,7 @@ import com.publisher.utils.DbUtil;
 
 public class CombSearchDocBuilder {
 	
-	private static String sqlDmcInfoQuery = "select name,associateFile from t_main where dmc in (?);";
+	private static String sqlDmcInfoQuery = "select name,associateFile,dmc from t_main where dmc in (?);";
 	
 	public Document createTreeViewDoc(String dmcs) throws ParserConfigurationException, SQLException{
 		
@@ -62,6 +62,12 @@ public class CombSearchDocBuilder {
 				text = result.createTextNode(path.substring(idx+1, path.length()-4));
 				info.appendChild(text);
 				dm.appendChild(info);
+				
+				info = result.createElement("dmc");
+				text = result.createTextNode(rs.getString(3));
+				info.appendChild(text);
+				dm.appendChild(info);
+				
 				root.appendChild(dm);
 			}
 			result.appendChild(root);

@@ -3,6 +3,7 @@ package com.publisher;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import com.publisher.utils.AsciiSaveUtil;
 import com.publisher.xmlparsers.PMParser;
 
 public class PublisherListener implements ServletContextListener {
@@ -26,6 +27,17 @@ public class PublisherListener implements ServletContextListener {
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
+	}
+	
+	public static void main(String[] args) {
+		AsciiSaveUtil.saveAscii("test.json", "fdas");
+		System.out.println(System.getProperty("user.dir"));
+//		PMParser pm = new PMParser("D:/pubRes/xml");//规定xml的路径
+//		try {
+//			pm.parse();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}		
 	}
 
 	public void contextDestroyed(ServletContextEvent event) {

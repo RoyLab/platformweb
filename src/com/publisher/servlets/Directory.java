@@ -17,7 +17,7 @@ public class Directory extends HttpServlet {
             throws ServletException, IOException {
     	response.setContentType("application/xml; charset=utf-8");
     	PrintWriter out = response.getWriter();
-    	out.print((String)getServletContext().getAttribute("xmldirectory"));
+    	out.print((String)getServletContext().getAttribute("dirJson"));
     	
     }
 

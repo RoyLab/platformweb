@@ -35,8 +35,8 @@
 		<param-value>D:/pubRes/xml</param-value>
 	</context-param>
 	<context-param>
-		<param-name>pmName</param-name>
-		<param-value>飞机测试数据源test</param-value>
+		<param-name>projectName</param-name>
+		<param-value>飞机测试数据源</param-value>
 	</context-param>
 	<context-param>
 		<param-name>cssXml</param-name>

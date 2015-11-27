@@ -1,59 +1,57 @@
 package com.publisher.xmlparsers;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
-
-import com.publisher.Config;
 
 public class TreeViewDocBuilder {
 	
-	public Document createTreeViewDoc(Document raw) throws ParserConfigurationException{
+	private Document docTarget = null;
+	private Node rootNode = null;
 	
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder = factory.newDocumentBuilder();
-		Document result = builder.newDocument();
-		
-		NodeList contents = raw.getElementsByTagName("content");
-		if (contents.getLength() < 1) return null;
-		
-		Node content = contents.item(0);
-		Node root = createPmentryNode(content, result);
-		((Element)root).setAttribute("name", Config.getServletContext().getInitParameter("pmName"));
-		result.appendChild(root);
-				
-		return result;
+	public TreeViewDocBuilder(Document target, Node root) {
+		docTarget = target;
+		rootNode = root;
 	}
 	
-	protected Node createPmentryNode(Node raw, Document doc){
+	public void addPM(Document raw) throws ParserConfigurationException{
 		
-		Element root = doc.createElement("filter");
-		root.setAttribute("name", getFilterName(raw));
+		NodeList contents = raw.getElementsByTagName("content");
+		if (contents.getLength() < 1) return;
+		
+		Node content = contents.item(0);
+		Element pmroot = docTarget.createElement("children");
+		pmroot.setAttribute("text", raw.getElementsByTagName("pmtitle").item(0).getTextContent());
+		rootNode.appendChild(pmroot);
+				
+		createPmentryNode(content, pmroot, docTarget);
+	}
+	
+	protected void createPmentryNode(Node raw, Node target, Document doc){
+		
 		NodeList childNodes = raw.getChildNodes();
+		
 		for (int i = 0; i < childNodes.getLength(); i++){
 			Node item = childNodes.item(i);
 			if (item.getNodeName() == "pmentry"){
-				Node newNode = createPmentryNode(item, doc);
-				root.appendChild(newNode);
+				Element child = doc.createElement("children");
+				target.appendChild(child);
+				child.setAttribute("text", getFilterName(item));
+				createPmentryNode(item, child, doc);
 				continue;
 			}
 			
 			if (item.getNodeName() == "refdm"){
-				Element dm = doc.createElement("dm");
-				dm.setAttribute("name", getDmtitle(item));
-				root.appendChild(dm);
-				Text newNode = doc.createTextNode(getDMCText(item));
-				dm.appendChild(newNode);
+				Element child = doc.createElement("children");
+				target.appendChild(child);
+				child.setAttribute("text", getDmtitle(item));
+				child.setAttribute("id", getDMCText(item));
 				continue;
 			}
 		}
-		return root;
 	}
 	
 	protected String getDMCText(Node node){

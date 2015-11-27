@@ -16,7 +16,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
+import org.json.JSONObject;
+import org.json.XML;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -29,7 +32,7 @@ import com.publisher.utils.OperateXMLByDOM;
 public class PMParser {
 	
 	private String dirName = "";
-	private String pmcFileName = "";
+	private List<String> pmcFileNames = new ArrayList<String>();
 	private String pmcReg = "PMC-.*\\.xml";
 	
 	public PMParser(String path) {
@@ -42,12 +45,11 @@ public class PMParser {
 		}		
 		Pattern pattern = Pattern.compile(pmcReg);
 		File[] files = dir.listFiles();
+		dirName = path+((path.charAt(path.length()-1) == '/')?"":"/");
 		for (File file: files){
 			Matcher m = pattern.matcher(file.getName());
 			if (m.matches()){
-				dirName = path+((path.charAt(path.length()-1) == '\\')?"":"\\");
-				pmcFileName = file.getName();
-				break;
+				pmcFileNames.add(file.getName());
 			}
 		}
 	}
@@ -55,52 +57,64 @@ public class PMParser {
 	public boolean parse() throws Exception{
 		
 		if (!isValid()) return false;
-
-		File pmcFile = new File(dirName+pmcFileName);
+		
+		// 侧边目录xml文档
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
-		Document doc = builder.parse(pmcFile);
-		
-		if (doc == null) return false;
-		
-		loadDirectory(doc);
-		
-//		TODO for test only.
-//		List<String> itemList = getRequestedItemList(doc);
-//		if (itemList == null) return false;
-//		
-//		List<File> fileList = getUpdatingFileList(itemList);
-//		updateContent(fileList);
+		Document xmlDir = builder.newDocument();
+		Element root = xmlDir.createElement("root");
+		xmlDir.appendChild(root);
+		root.setAttribute("text", Config.getServletContext().getInitParameter("projectName"));
+		TreeViewDocBuilder dirBuilder = new TreeViewDocBuilder(xmlDir, root);
+
+		for (String fName: pmcFileNames){
+			
+			File pmcFile = new File(dirName+fName);
+			factory = DocumentBuilderFactory.newInstance();
+			builder = factory.newDocumentBuilder();
+			Document doc = builder.parse(pmcFile);
+			
+			if (doc == null) return false;
+			dirBuilder.addPM(doc);		
+//			TODO for test only.
+//			List<String> itemList = getRequestedItemList(doc);
+//			if (itemList == null) return false;
+//			
+//			List<File> fileList = getUpdatingFileList(itemList);
+//			updateContent(fileList);			
+		}
+		SaveDirectory(xmlDir);
+
 		return true;
 	}
 	
 	protected boolean isValid(){
-		return !(dirName.isEmpty() || pmcFileName.isEmpty());
+		return !(dirName.isEmpty() || pmcFileNames.isEmpty());
 	}
 
-	protected String getPMName(Document doc){
-		// 取得pmc的名字
-		String pmcName = "";
-		if (doc != null){
-			NodeList pmc = doc.getElementsByTagName("pmc");
-			if (pmc == null || pmc.getLength() != 1) 
-				return null;
-			
-			NodeList pmcContent = pmc.item(0).getChildNodes();
-			for (int i = 0; i < pmcContent.getLength(); i++){
-				if (pmcContent.item(i).getNodeName() == "#text") continue;
-				pmcName += pmcContent.item(i).getTextContent() + "-";
-			}
-			
-			NodeList pmtitle = doc.getElementsByTagName("pmtitle");
-			if (pmtitle == null || pmtitle.getLength() != 1) 
-				return null;
-			pmcName += pmtitle.item(0).getTextContent();
-		}
-		
-		System.out.println("出版物名称为: " + pmcName);
-		return pmcName;
-	}
+//	protected String getPMName(Document doc){
+//		// 取得pmc的名字
+//		String pmcName = "";
+//		if (doc != null){
+//			NodeList pmc = doc.getElementsByTagName("pmc");
+//			if (pmc == null || pmc.getLength() != 1) 
+//				return null;
+//			
+//			NodeList pmcContent = pmc.item(0).getChildNodes();
+//			for (int i = 0; i < pmcContent.getLength(); i++){
+//				if (pmcContent.item(i).getNodeName() == "#text") continue;
+//				pmcName += pmcContent.item(i).getTextContent() + "-";
+//			}
+//			
+//			NodeList pmtitle = doc.getElementsByTagName("pmtitle");
+//			if (pmtitle == null || pmtitle.getLength() != 1) 
+//				return null;
+//			pmcName += pmtitle.item(0).getTextContent();
+//		}
+//		
+//		System.out.println("出版物名称为: " + pmcName);
+//		return pmcName;
+//	}
 
 	// 检查项目是否存在对应文件，是否需要被更新
 	protected List<File> getUpdatingFileList(List<String> fileList){
@@ -178,12 +192,32 @@ public class PMParser {
 		return true;
 	}
 
-	protected void loadDirectory(Document doc) throws TransformerException, ParserConfigurationException {
+	protected void SaveDirectory(Document doc) throws TransformerException, ParserConfigurationException {
 		
-		TreeViewDocBuilder builder = new TreeViewDocBuilder();
-		Document newDoc = builder.createTreeViewDoc(doc);
-		String xmlStr = OperateXMLByDOM.doc2FormatString(newDoc);
-		Config.getServletContext().setAttribute("xmldirectory", xmlStr);
-		AsciiSaveUtil.saveAscii("C:\\Users\\RUI\\Desktop\\test.xml", xmlStr);
+		String realPath=Config.getServletContext().getRealPath("/");
+		
+		String xmlStr = OperateXMLByDOM.doc2FormatString(doc);
+		AsciiSaveUtil.saveAscii(realPath+"test.xml", xmlStr);
+
+		// 一点点hack的方法
+		NodeList nl = doc.getElementsByTagName("children");
+		List<Node> nl2 = new ArrayList<Node>();
+		for (int i = 0; i < nl.getLength(); i++) {
+			if (((Element)nl.item(i)).getAttribute("id") == null)
+				nl2.add(nl.item(i));
+		}
+		for (Node node: nl2){
+			node.appendChild(doc.createElement("children"));
+		}
+		
+		JSONObject soapDatainJsonObject = XML.toJSONObject(xmlStr);
+		
+		String jsonString = soapDatainJsonObject.toString(2);
+		
+		String tmp = jsonString.replaceAll("\\\"\\\",", "");
+		String json = "["+tmp.substring(8, tmp.length()-1)+"]";
+		
+		Config.getServletContext().setAttribute("dirJson", json);
+		AsciiSaveUtil.saveAscii(realPath+"test.json", json);
 	}
 }

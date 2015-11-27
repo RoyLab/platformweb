@@ -14,7 +14,9 @@
 	<%
 	HtmlContainer ch = new HtmlContainer();
 	//request这个页面的时候应该同时提交dmc参数，现在为了测试用的是固定值。
-	ch.writeHtml(out, "SAMPLEA00000000A018AA");// (String)request.getAttribute("dmc"));
+	String dmc = (String)request.getParameter("dmc");
+	if (dmc == null) dmc = "SAMPLEA00000000A018AA";
+	ch.writeHtml(out, dmc);
 	ch.destroy();
 	%>	
 </div>

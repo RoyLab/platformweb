@@ -12,6 +12,7 @@ import org.w3c.dom.Document;
 
 import com.publisher.SearchEngine;
 import com.publisher.utils.OperateXMLByDOM;
+import com.publisher.utils.XSLTTransformer;
 import com.publisher.xmlparsers.CombSearchDocBuilder;
 
 public class CombSearch extends HttpServlet {
@@ -35,6 +36,7 @@ public class CombSearch extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+    	//XSLTTransformer.xsl2Stream("", out, "");
     	out.print(OperateXMLByDOM.doc2FormatString(xml));
     }
 
