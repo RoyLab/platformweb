@@ -199,22 +199,24 @@ public class PMParser {
 		String xmlStr = OperateXMLByDOM.doc2FormatString(doc);
 		AsciiSaveUtil.saveAscii(realPath+"test.xml", xmlStr);
 
-		// 一点点hack的方法
-		NodeList nl = doc.getElementsByTagName("children");
+		// hack的方法, 给每个目录加一个空节点
 		List<Node> nl2 = new ArrayList<Node>();
+		nl2.add(doc.getElementsByTagName("root").item(0));
+		NodeList nl = doc.getElementsByTagName("children");
 		for (int i = 0; i < nl.getLength(); i++) {
-			if (((Element)nl.item(i)).getAttribute("id") == null)
+			if (((Element)nl.item(i)).getAttribute("id") == "")
 				nl2.add(nl.item(i));
 		}
 		for (Node node: nl2){
 			node.appendChild(doc.createElement("children"));
 		}
 		
+		xmlStr = OperateXMLByDOM.doc2FormatString(doc);
 		JSONObject soapDatainJsonObject = XML.toJSONObject(xmlStr);
+				String jsonString = soapDatainJsonObject.toString();
 		
-		String jsonString = soapDatainJsonObject.toString(2);
-		
-		String tmp = jsonString.replaceAll("\\\"\\\",", "");
+		// 通过字符替换把这些空节点去掉，以达到产生[]括号对的目的
+		String tmp = jsonString.replaceAll(",\\\"\\\"", "");
 		String json = "["+tmp.substring(8, tmp.length()-1)+"]";
 		
 		Config.getServletContext().setAttribute("dirJson", json);
