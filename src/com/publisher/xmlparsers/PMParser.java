@@ -76,12 +76,12 @@ public class PMParser {
 			
 			if (doc == null) return false;
 			dirBuilder.addPM(doc);		
-//			TODO for test only.
-//			List<String> itemList = getRequestedItemList(doc);
-//			if (itemList == null) return false;
-//			
-//			List<File> fileList = getUpdatingFileList(itemList);
-//			updateContent(fileList);			
+//			TODO comment them for test only.
+			List<String> itemList = getRequestedItemList(doc);
+			if (itemList == null) return false;
+			
+			List<File> fileList = getUpdatingFileList(itemList);
+			updateContent(fileList);		
 		}
 		SaveDirectory(xmlDir);
 

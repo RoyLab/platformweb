@@ -15,7 +15,7 @@ import com.publisher.utils.OperateXMLByDOM;
 import com.publisher.utils.XSLTTransformer;
 import com.publisher.xmlparsers.CombSearchDocBuilder;
 
-public class CombSearch extends HttpServlet {
+public class FullTextSearch extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -30,7 +30,7 @@ public class CombSearch extends HttpServlet {
 			//TODO 中文编码问题尚未解决，亲测chrome是可以用的。
 			String keyword = new String(request.getParameter("key").getBytes("ISO8859-1"),"UTF-8");
 			System.out.println(keyword);
-			String dmcs = searchEngine.combSearch((keyword != null)?keyword:"发动机", "para");
+			String dmcs = searchEngine.fullTextSearch((keyword != null)?keyword:"发动机");
 			CombSearchDocBuilder docBuilder = new CombSearchDocBuilder();
 			xml = docBuilder.createTreeViewDoc(dmcs);
 		} catch (Exception e) {

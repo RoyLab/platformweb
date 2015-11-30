@@ -13,7 +13,6 @@
 	    <param-name>jdbcName</param-name>
 	    <param-value>com.mysql.jdbc.Driver</param-value>
 	</context-param>
-	
 	<context-param>
 	    <param-name>dbUrl</param-name>
 	    <param-value>jdbc:mysql://127.0.0.1:3306/db_pm</param-value>
@@ -31,6 +30,7 @@
 		<param-value>zh_CN</param-value>
 	</context-param>
 	<context-param>
+	<!-- 	xml文件的位置 -->
 		<param-name>pmLocation</param-name>
 		<param-value>D:/pubRes/xml</param-value>
 	</context-param>
@@ -39,10 +39,12 @@
 		<param-value>飞机测试数据源</param-value>
 	</context-param>
 	<context-param>
+	<!-- 	css文件的源码位置，暂未使用 -->
 		<param-name>cssXml</param-name>
 		<param-value>D:/pubRes/TemplateStyle</param-value>
 	</context-param>
 	<context-param>
+	<!-- 	css文件的位置 -->
 		<param-name>cssSrc</param-name>
 		<param-value>./style.css</param-value>
 	</context-param>
@@ -77,11 +79,11 @@
 	    <url-pattern>/dir</url-pattern>
 	</servlet-mapping>
 		<servlet>
-	    <servlet-name>CombSearch</servlet-name>
-	    <servlet-class>com.publisher.servlets.CombSearch</servlet-class>
+	    <servlet-name>FTSearch</servlet-name>
+	    <servlet-class>com.publisher.servlets.FullTextSearch</servlet-class>
 	</servlet>
 	<servlet-mapping>
-	    <servlet-name>CombSearch</servlet-name>
-	    <url-pattern>/combsearch</url-pattern>
+	    <servlet-name>FTSearch</servlet-name>
+	    <url-pattern>/ftsearch</url-pattern>
 	</servlet-mapping>
 </web-app>
