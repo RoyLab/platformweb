@@ -44,9 +44,12 @@
 		<param-value>D:/pubRes/TemplateStyle</param-value>
 	</context-param>
 	<context-param>
-	<!-- 	css文件的位置 -->
-		<param-name>cssSrc</param-name>
-		<param-value>./style.css</param-value>
+		<param-name>cssSrc1</param-name>
+		<param-value>css/style.css</param-value>
+	</context-param>
+	<context-param>
+		<param-name>cssSrc2</param-name>
+		<param-value>css/tbStyle.css</param-value>
 	</context-param>
 	
 	<listener>

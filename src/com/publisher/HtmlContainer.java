@@ -1,6 +1,9 @@
 package com.publisher;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +12,7 @@ import java.sql.SQLException;
 import javax.servlet.jsp.JspWriter;
 
 import com.publisher.utils.DbUtil;
+import com.publisher.utils.XSLTTransformer;
 
 // TODO
 public class HtmlContainer {
@@ -47,8 +51,17 @@ public class HtmlContainer {
 			out.print("<div align=\"center\" class=\"dmodule_title\">"
 					+ name[0]
 					+ "	</div>");
-			
-			out.print(content);
+//			out.print("<h1>"
+//					+ "divider"
+//					+ "	</h1>");
+//			XSLTTransformer.xsl2Stream2(content, out, Config.getServletContext().getRealPath("")+"/xslt/dm.xslt");
+//	    	File f = new File("D:/Codes/eclipse/Publisher/WebContent/xslt/ftsearch.html");
+//	    	FileOutputStream fis = new FileOutputStream(f);
+//	    	OutputStreamWriter w = new OutputStreamWriter(fis);
+			XSLTTransformer.xsl2StreamWithPath(content, out, "D:/Codes/eclipse/Publisher/WebContent/xslt/dm.xslt");
+//			XSLTTransformer.xsl2Stream2(content, w, "D:/Codes/eclipse/Publisher/WebContent/xslt/dm.xslt");
+//			w.close();
+//			out.print(content);
 				
 		} catch (IOException e) {
 			e.printStackTrace();

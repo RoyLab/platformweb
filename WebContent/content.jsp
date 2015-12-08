@@ -6,7 +6,21 @@
     <%@page import="com.publisher.*" %>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="PRAGMA" content="no-cache">
-    <link rel="STYLESHEET" type="text/css" href="<%=getServletContext().getInitParameter("cssSrc")%>">
+    <link rel="STYLESHEET" type="text/css" href="manual-resources/css/style.css">
+    <link rel="STYLESHEET" type="text/css" href="manual-resources/css/tbStyle.css">
+    
+    <script language="JavaScript" src="manual-resources/js/jquery.js"></script>
+    <script language="JavaScript" src="manual-resources/js/Dialog.js"></script>
+    <script language="JavaScript" src="manual-resources/js/Reference.js"></script>
+    <script language="JavaScript" src="manual-resources/js/AssistantInfo.js"></script>
+    <script language="JavaScript" src="manual-resources/js/Graphic.js"></script>
+    <script language="JavaScript" src="manual-resources/js/Procedure.js"></script>
+    <script language="JavaScript" src="manual-resources/js/Fault.js"></script>
+    <script language="JavaScript" src="manual-resources/js/Process.js"></script>
+    <script language="JavaScript" src="manual-resources/js/Schedule.js"></script>
+    <script language="JavaScript" src="manual-resources/js/ApplicRecised.js"></script>
+    <script language="JavaScript" src="manual-resources/js/IETM.js"></script>
+    
 	<title>Content</title>
 </head>
 <body>

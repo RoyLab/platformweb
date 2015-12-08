@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,11 +17,13 @@ import org.w3c.dom.Text;
 
 import com.publisher.utils.DbUtil;
 
-public class CombSearchDocBuilder {
+public class Dmc2Xml {
 	
-	private static String sqlDmcInfoQuery = "select name,associateFile,dmc from t_main where dmc in (?);";
+	private static String sqlDmcInfoQuery = "select name,associateFile,dmc,content,modified from t_main where dmc in (?);";
 	
-	public Document createTreeViewDoc(String dmcs) throws ParserConfigurationException, SQLException{
+	private static int ABSTRACT_CHAR_NUMBER = 250;
+	
+	public Document createTreeViewDoc(String dmcs, String key) throws ParserConfigurationException, SQLException{
 		
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
@@ -41,6 +45,10 @@ public class CombSearchDocBuilder {
 			str = str.substring(2, str.length()-2);
 			ResultSet rs = pstmt.executeQuery(sqlDmcInfoQuery.replaceFirst("\\?", str));
 			Element root = result.createElement("result");
+			Element keyElem = result.createElement("key");
+			Text keyText = result.createTextNode(key);
+			keyElem.appendChild(keyText);
+			root.appendChild(keyElem);
 			while (rs.next()){
 				Element dm = result.createElement("dm");
 
@@ -65,6 +73,31 @@ public class CombSearchDocBuilder {
 				
 				info = result.createElement("dmc");
 				text = result.createTextNode(rs.getString(3));
+				info.appendChild(text);
+				dm.appendChild(info);
+				
+				info = result.createElement("date");
+				text = result.createTextNode(rs.getString(5));
+				info.appendChild(text);
+				dm.appendChild(info);
+				
+				info = result.createElement("abstract");
+				String ft = rs.getString(4);
+				
+				Pattern p = Pattern.compile(key);
+				Matcher m = p.matcher(ft);
+				int a = 0;
+				if (m.find())
+					a = m.start();
+				
+				int b = a + ABSTRACT_CHAR_NUMBER;
+				String tail = "...";
+				if (b >= ft.length()){
+					b = ft.length();
+					tail = "";
+				}
+				
+				text = result.createTextNode(ft.substring(a, b)+tail);
 				info.appendChild(text);
 				dm.appendChild(info);
 				
