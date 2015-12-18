@@ -43,14 +43,6 @@
 		<param-name>cssXml</param-name>
 		<param-value>D:/pubRes/TemplateStyle</param-value>
 	</context-param>
-	<context-param>
-		<param-name>cssSrc1</param-name>
-		<param-value>css/style.css</param-value>
-	</context-param>
-	<context-param>
-		<param-name>cssSrc2</param-name>
-		<param-value>css/tbStyle.css</param-value>
-	</context-param>
 	
 	<listener>
 		<listener-class>com.publisher.PublisherListener</listener-class>
@@ -65,14 +57,6 @@
 		<url-pattern>/*</url-pattern>	
 	</filter-mapping>
 	
-	<servlet>
-	    <servlet-name>Test</servlet-name>
-	    <servlet-class>com.publisher.servlets.Test</servlet-class>
-	</servlet>
-	<servlet-mapping>
-	    <servlet-name>Test</servlet-name>
-	    <url-pattern>/test</url-pattern>
-	</servlet-mapping>
 	<servlet>
 	    <servlet-name>Directory</servlet-name>
 	    <servlet-class>com.publisher.servlets.Directory</servlet-class>

@@ -18,8 +18,10 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
         <div><xsl:value-of select="code"/>, <xsl:value-of select="date"/></div>
         <br/>
       </xsl:for-each>
+    <xsl:variable name="keyword"><xsl:value-of select="result/key" /></xsl:variable>
+    <h1><xsl:value-of select="$keyword"/></h1>
     <script type="text/javascript">
-      $("p").textSearch("发动机");;
+      $("p").textSearch("<xsl:value-of select="$keyword"/>");
     </script>
   </body>
   </html>

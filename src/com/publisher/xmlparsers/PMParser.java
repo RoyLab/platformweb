@@ -77,11 +77,11 @@ public class PMParser {
 			if (doc == null) return false;
 			dirBuilder.addPM(doc);		
 //			TODO comment them for test only.
-//			List<String> itemList = getRequestedItemList(doc);
-//			if (itemList == null) continue;
-//			
-//			List<File> fileList = getUpdatingFileList(itemList);
-//			updateContent(fileList);		
+			List<String> itemList = getRequestedItemList(doc);
+			if (itemList == null) continue;
+			
+			List<File> fileList = getUpdatingFileList(itemList);
+			updateContent(fileList);		
 		}
 		SaveDirectory(xmlDir);
 
@@ -91,30 +91,6 @@ public class PMParser {
 	protected boolean isValid(){
 		return !(dirName.isEmpty() || pmcFileNames.isEmpty());
 	}
-
-//	protected String getPMName(Document doc){
-//		// 取得pmc的名字
-//		String pmcName = "";
-//		if (doc != null){
-//			NodeList pmc = doc.getElementsByTagName("pmc");
-//			if (pmc == null || pmc.getLength() != 1) 
-//				return null;
-//			
-//			NodeList pmcContent = pmc.item(0).getChildNodes();
-//			for (int i = 0; i < pmcContent.getLength(); i++){
-//				if (pmcContent.item(i).getNodeName() == "#text") continue;
-//				pmcName += pmcContent.item(i).getTextContent() + "-";
-//			}
-//			
-//			NodeList pmtitle = doc.getElementsByTagName("pmtitle");
-//			if (pmtitle == null || pmtitle.getLength() != 1) 
-//				return null;
-//			pmcName += pmtitle.item(0).getTextContent();
-//		}
-//		
-//		System.out.println("出版物名称为: " + pmcName);
-//		return pmcName;
-//	}
 
 	// 检查项目是否存在对应文件，是否需要被更新
 	protected List<File> getUpdatingFileList(List<String> fileList){
@@ -179,13 +155,9 @@ public class PMParser {
 		DBWriter dbWriter = new DBWriter();
 		
 		dbWriter.initTables();
-		//TODO debug
-//		int count = 0;
 		for (File file: fileList){
-//			count ++;
 			System.out.println("Insert DM: "+file);
 			dbWriter.addDM(file);
-//			if (count > 5) break;
 		}
 		
 		dbWriter.destroy();
@@ -221,5 +193,29 @@ public class PMParser {
 		
 		Config.getServletContext().setAttribute("dirJson", json);
 		AsciiSaveUtil.saveAscii(realPath+"test.json", json);
+	}
+
+	protected String getPMName(Document doc){
+		// 取得pmc的名字
+		String pmcName = "";
+		if (doc != null){
+			NodeList pmc = doc.getElementsByTagName("pmc");
+			if (pmc == null || pmc.getLength() != 1) 
+				return null;
+			
+			NodeList pmcContent = pmc.item(0).getChildNodes();
+			for (int i = 0; i < pmcContent.getLength(); i++){
+				if (pmcContent.item(i).getNodeName() == "#text") continue;
+				pmcName += pmcContent.item(i).getTextContent() + "-";
+			}
+			
+			NodeList pmtitle = doc.getElementsByTagName("pmtitle");
+			if (pmtitle == null || pmtitle.getLength() != 1) 
+				return null;
+			pmcName += pmtitle.item(0).getTextContent();
+		}
+		
+		System.out.println("出版物名称为: " + pmcName);
+		return pmcName;
 	}
 }

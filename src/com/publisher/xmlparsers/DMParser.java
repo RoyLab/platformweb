@@ -65,23 +65,6 @@ public class DMParser {
 		}
 		
 		return dmDoc;
-		/*for (int i = 0; i < refdms.getLength(); i++){
-			Node refdm = refdms.item(i);
-			if (refdm.getParentNode().getNodeName() == "pmentry"){
-				String dmName = "DMC";
-				NodeList refdmChildren = refdm.getChildNodes();
-				for (int j = 0; j < refdmChildren.getLength(); j++){
-					Node code = refdmChildren.item(j);
-					if (code.getNodeName() == "dmc"){
-						dmName += code.getTextContent().replaceAll("\\s\\s*", ".*");
-					} else if (code.getNodeName() == "language"){
-						dmName += code.getAttributes().getNamedItem("language").getNodeValue()+"-";
-						dmName += code.getAttributes().getNamedItem("country").getNodeValue()+".xml";
-					}
-				}
-				result.add(dmName);
-			}
-		}*/
 	}
 	
 	public String getModifiedTime(File file){

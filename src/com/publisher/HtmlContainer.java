@@ -1,9 +1,6 @@
 package com.publisher;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,27 +20,7 @@ public class HtmlContainer {
 	public HtmlContainer() throws Exception {
 		con = DbUtil.getCon();
 	}
-	
-	
-	// 缓冲示例
-//    String s = 
-//    	      "<p>" +
-//    	      "  <media type=\"audio\" id=\"au008093\" rights=\"wbowned\">" +
-//    	      "    <title>Bee buzz</title>" +
-//    	      "  " +
-//    	      "  Most other kinds of bees live alone instead of in a colony." +
-//    	      "  These bees make tunnels in wood or in the ground." +
-//    	      "  The queen makes her own nest." +
-//    	      "</p>";
-//    	    InputStream is = new ByteArrayInputStream(s.getBytes());
-//
-//    	    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-//    	    DocumentBuilder db = dbf.newDocumentBuilder();
-//    	    Document d = db.parse(is);
-//
-//    	    Node rootElement = d.getDocumentElement();
-//    	    System.out.println(nodeToString(rootElement));
-	
+
 	public void writeHtml(JspWriter out, String dmc){
 		try {
 			String[] name = {"NULL"};
@@ -51,17 +28,15 @@ public class HtmlContainer {
 			out.print("<div align=\"center\" class=\"dmodule_title\">"
 					+ name[0]
 					+ "	</div>");
-//			out.print("<h1>"
-//					+ "divider"
-//					+ "	</h1>");
-//			XSLTTransformer.xsl2Stream2(content, out, Config.getServletContext().getRealPath("")+"/xslt/dm.xslt");
+
+			XSLTTransformer.xsl2StreamWithPath(content, out, Config.getServletContext().getRealPath("")+"/xslt/dm.xslt");
+			
+//			// write into the file
 //	    	File f = new File("D:/Codes/eclipse/Publisher/WebContent/xslt/ftsearch.html");
 //	    	FileOutputStream fis = new FileOutputStream(f);
 //	    	OutputStreamWriter w = new OutputStreamWriter(fis);
-			XSLTTransformer.xsl2StreamWithPath(content, out, "D:/Codes/eclipse/Publisher/WebContent/xslt/dm.xslt");
 //			XSLTTransformer.xsl2Stream2(content, w, "D:/Codes/eclipse/Publisher/WebContent/xslt/dm.xslt");
 //			w.close();
-//			out.print(content);
 				
 		} catch (IOException e) {
 			e.printStackTrace();

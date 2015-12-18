@@ -1,6 +1,5 @@
 package com.publisher.servlets;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -28,8 +27,6 @@ public class FullTextSearch extends HttpServlet {
     	Document xml = null;
     	try {
 			SearchEngine searchEngine = new SearchEngine();
-			//TODO 中文编码问题尚未解决，亲测chrome是可以用的。
-			
 			String keyword = new String(request.getParameter("key").getBytes("ISO8859-1"),"UTF-8");
 //			String keyword = new String(request.getParameter("key").getBytes("ISO8859-1"),"GB2312");
 			String dmcs = searchEngine.fullTextSearch((keyword != null)?keyword:"发动机");
@@ -39,15 +36,8 @@ public class FullTextSearch extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    	//File f = new File("D:/Codes/eclipse/Publisher/xslt/ftsearch.html");
-    	//FileOutputStream fis = new FileOutputStream(f);
-    	//OutputStreamWriter w = new OutputStreamWriter(fis);
-//    	XSLTTransformer.xsl2Stream2(OperateXMLByDOM.doc2FormatString(xml), out, request.getServletContext().getRealPath("")+"/xslt/ftsearch.xslt");
-    	
-    	//fis.flush();
-    	//fis.close();
-    	System.out.println(request.getServletContext().getRealPath(""));
-    	//out.print(OperateXMLByDOM.doc2FormatString(xml));
+    	XSLTTransformer.xsl2Stream2(OperateXMLByDOM.doc2FormatString(xml), out, request.getServletContext().getRealPath("")+"/xslt/ftsearch.xslt");
+    	//System.out.println(request.getServletContext().getRealPath(""));
     }
 
     @Override
