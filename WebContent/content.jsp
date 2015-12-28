@@ -29,11 +29,13 @@
 	HtmlContainer ch = new HtmlContainer();
 	//request这个页面的时候应该同时提交dmc参数，现在为了测试用的是固定值。
 	String dmc = (String)request.getParameter("dmc");
+	System.out.println(dmc);
 	if (dmc == null) dmc = "SAMPLEA00000000A018AA";
 	ch.writeHtml(out, dmc);
 	ch.destroy();
 	%>	
 </div>
+<br/><br/><br/><br/>
 <hr class="DmEnding" width="98%" align="center">
 <div class="DmEnding" align="center" style="color:#6C6C6C;font-family:黑体; font-weight:bold;">数据模块结束</div>
 

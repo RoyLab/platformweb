@@ -58,9 +58,25 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	</div>
 </xsl:template>
 
-<xsl:template match="para">
-	<p class="para_firstline_indent_text"><xsl:value-of select="."/></p>
+<xsl:template match="deflist">
+	<table class="lists_table" align="center" width="90%">
+  		<tr>
+    		<th width="50%" align="center">术语</th>
+    		<th width="50%" align="center">解释</th>
+  		</tr>
+  		<xsl:for-each select="term">
+	        <tr valign="top">
+	          <td width="50%"><xsl:value-of select="."/></td>
+	          <td style="padding-left:5px;table-layout:fixed;word-wrap:break-word;word-break:break-all" width="50%"><xsl:value-of select="following::def/para"/> </td>
+	        </tr>
+        </xsl:for-each>
+  	</table>
 </xsl:template>
+
+<xsl:template match="para">
+	<p class="para_firstline_indent_text"><xsl:apply-templates/></p>
+</xsl:template>
+
 
 <xsl:template match="figure">
 	<xsl:variable name="icn"><xsl:value-of select="graphic/@boardno" /></xsl:variable>
@@ -90,5 +106,75 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     </div>
 </xsl:template>
 
+
+<xsl:variable name="ws"><xsl:value-of select="sum(tgroup/colspec/@colwidth)" /></xsl:variable>
+
+<xsl:template match="table">
+	<table cellpadding="5" border="0" cellspacing="0" align="center" class="table_class" width="90%"><br />
+		<colgroup>
+			<xsl:for-each select="tgroup/colspec">
+				<xsl:variable name="width"><xsl:value-of select="@colwidth" /></xsl:variable>
+				<col colwidth="{$width}"/>
+			</xsl:for-each>
+
+	    </colgroup>
+		<tr>
+			<xsl:for-each select="tgroup/thead/row/entry">
+				<xsl:variable name="cName"><xsl:value-of select="@colname"/></xsl:variable>
+				<xsl:variable name="width"><xsl:value-of select="../../../colspec[@colname=$cName]" /></xsl:variable>
+				<xsl:variable name="widthRatio"><xsl:value-of select="$width div $ws * 100" /></xsl:variable>
+				<th class="table_first_thead" width="{$widthRatio}%" align="left" valign="top">
+					<xsl:value-of select="." />
+				</th>
+			</xsl:for-each>
+			<td class="table_last_col" style="border-right-width:0pt;border-top-width:0pt;border-bottom-width:0pt;"> </td>
+    	</tr>
+    	<tr/>
+    	<xsl:apply-templates select="tgroup/tbody"/>
+	</table>
+</xsl:template>
+
+<xsl:template match="tgroup/tbody">
+	<xsl:for-each select="row">
+       	<tr>
+			<xsl:for-each select="entry">
+	       		<xsl:variable name="seq"><xsl:number count="row"/></xsl:variable>
+		      	<xsl:if test="$seq = '1'">
+		      		<xsl:variable name="cName"><xsl:value-of select="@colname"/></xsl:variable>
+					<xsl:variable name="width"><xsl:value-of select="../../../colspec[@colname=$cName]" /></xsl:variable>
+					<xsl:variable name="widthRatio"><xsl:value-of select="$width div $ws * 100" /></xsl:variable>
+		          	<td style="border-top-style:solid;border-top-width:1pt;" width="{$widthRatio}%" class="table_cell" align="left" valign="top">
+	          		<xsl:call-template name="LFsToBRs">
+						<xsl:with-param name="input" select="."/>
+					</xsl:call-template>
+		          	</td>
+				</xsl:if>
+				<xsl:if test="$seq != '1'">
+					<td class="table_cell" align="left" valign="top">
+					<xsl:call-template name="LFsToBRs">
+						<xsl:with-param name="input" select="."/>
+					</xsl:call-template>
+					</td>
+				</xsl:if>
+			</xsl:for-each>
+          	<td class="table_last_col" style="border-right-width:0pt;border-top-width:0pt;border-bottom-width:0pt;"> </td>
+        </tr>
+	</xsl:for-each>
+</xsl:template>
+
+<xsl:template name="LFsToBRs">
+	<xsl:param name="input" />
+	<xsl:choose>
+		<xsl:when test="contains($input, '&#10;')">
+			<xsl:value-of select="substring-before($input, '&#10;')" /><br />
+			<xsl:call-template name="LFsToBRs">
+				<xsl:with-param name="input" select="substring-after($input, '&#10;')" />
+			</xsl:call-template>
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:value-of select="$input" />
+		</xsl:otherwise>
+	</xsl:choose>
+</xsl:template>
 
 </xsl:stylesheet>
