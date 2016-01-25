@@ -31,7 +31,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:template match="para0/title">
 	<div class="para0_title">
 		<xsl:number count="para0"/>
-		<xsl:text disable-output-escaping="yes">&amp;nbsp;&amp;nbsp;</xsl:text>
+		<xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
 		<xsl:value-of select="."/>
 	</div>
 </xsl:template>
@@ -41,7 +41,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 		<xsl:number count="para0"/>
 		<xsl:text>.</xsl:text>
 		<xsl:number count="subpara1"/>
-		<xsl:text disable-output-escaping="yes">&amp;nbsp;&amp;nbsp;</xsl:text>
+		<xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
 		<xsl:value-of select="."/>
 	</div>
 </xsl:template>
@@ -53,7 +53,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 		<xsl:number count="subpara1"/>
 		<xsl:text>.</xsl:text>
 		<xsl:number count="subpara2"/>
-		<xsl:text disable-output-escaping="yes">&amp;nbsp;&amp;nbsp;</xsl:text>
+		<xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
 		<xsl:value-of select="."/>
 	</div>
 </xsl:template>
@@ -77,6 +77,31 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<p class="para_firstline_indent_text"><xsl:apply-templates/></p>
 </xsl:template>
 
+
+<xsl:template match="randlist[floor(count(ancestor::randlist) div 2) * 2 = count(ancestor::randlist)]">
+<ul class="unordered_randlist_hyphen_Odd">
+	<xsl:apply-templates select="title | item"/>
+</ul>
+</xsl:template>
+
+<xsl:template match="randlist/title">
+<div style="font-weight:bold;font-size:14.25;text-indent:0mm;">
+	<xsl:value-of select="."/>
+</div>
+</xsl:template>
+          
+<xsl:template match="randlist/item">
+<li style="line-height:1.8;"><div class="para_text" style="text-indent:0mm;">
+	<xsl:value-of select="para/text()"/>
+	<xsl:apply-templates select="para/randlist"/>
+</div></li>
+</xsl:template>
+
+<xsl:template match="randlist[floor(count(ancestor::randlist) div 2) * 2 != count(ancestor::randlist)]">
+<ul class="unordered_randlist_hyphen_Even">
+	<xsl:apply-templates select="item"/>
+</ul>
+</xsl:template>
 
 <xsl:template match="figure">
 	<xsl:variable name="icn"><xsl:value-of select="graphic/@boardno" /></xsl:variable>
@@ -107,7 +132,6 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 </xsl:template>
 
 
-<xsl:variable name="ws"><xsl:value-of select="sum(tgroup/colspec/@colwidth)" /></xsl:variable>
 
 <xsl:template match="table">
 	<table cellpadding="5" border="0" cellspacing="0" align="center" class="table_class" width="90%"><br />
@@ -116,32 +140,36 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 				<xsl:variable name="width"><xsl:value-of select="@colwidth" /></xsl:variable>
 				<col colwidth="{$width}"/>
 			</xsl:for-each>
-
 	    </colgroup>
-		<tr>
-			<xsl:for-each select="tgroup/thead/row/entry">
-				<xsl:variable name="cName"><xsl:value-of select="@colname"/></xsl:variable>
-				<xsl:variable name="width"><xsl:value-of select="../../../colspec[@colname=$cName]" /></xsl:variable>
-				<xsl:variable name="widthRatio"><xsl:value-of select="$width div $ws * 100" /></xsl:variable>
-				<th class="table_first_thead" width="{$widthRatio}%" align="left" valign="top">
-					<xsl:value-of select="." />
-				</th>
-			</xsl:for-each>
-			<td class="table_last_col" style="border-right-width:0pt;border-top-width:0pt;border-bottom-width:0pt;"> </td>
-    	</tr>
-    	<tr/>
-    	<xsl:apply-templates select="tgroup/tbody"/>
+    	<xsl:apply-templates select="tgroup/thead | tgroup/tbody"/>
 	</table>
 </xsl:template>
 
+<xsl:template match="tgroup/thead">
+	<xsl:variable name="ws"><xsl:value-of select="sum(../colspec/@colwidth)" /></xsl:variable>
+	<tr>
+		<xsl:for-each select="row/entry">
+			<xsl:variable name="cName"><xsl:value-of select="@colname"/></xsl:variable>
+			<xsl:variable name="width"><xsl:value-of select="ancestor::tgroup/colspec[@colname=$cName]/@colwidth" /></xsl:variable>
+			<xsl:variable name="widthRatio"><xsl:value-of select="$width div $ws * 100" /></xsl:variable>
+			<th class="table_first_thead" width="{$widthRatio}%" align="left" valign="top">
+				<xsl:value-of select="." />
+			</th>
+		</xsl:for-each>
+		<td class="table_last_col" style="border-right-width:0pt;border-top-width:0pt;border-bottom-width:0pt;"> </td>
+   	</tr>
+</xsl:template>
+
+
 <xsl:template match="tgroup/tbody">
+	<xsl:variable name="ws"><xsl:value-of select="sum(../colspec/@colwidth)" /></xsl:variable>
 	<xsl:for-each select="row">
        	<tr>
 			<xsl:for-each select="entry">
 	       		<xsl:variable name="seq"><xsl:number count="row"/></xsl:variable>
 		      	<xsl:if test="$seq = '1'">
-		      		<xsl:variable name="cName"><xsl:value-of select="@colname"/></xsl:variable>
-					<xsl:variable name="width"><xsl:value-of select="../../../colspec[@colname=$cName]" /></xsl:variable>
+					<xsl:variable name="cName"><xsl:value-of select="@colname"/></xsl:variable>
+					<xsl:variable name="width"><xsl:value-of select="ancestor::tgroup/colspec[@colname=$cName]/@colwidth" /></xsl:variable>
 					<xsl:variable name="widthRatio"><xsl:value-of select="$width div $ws * 100" /></xsl:variable>
 		          	<td style="border-top-style:solid;border-top-width:1pt;" width="{$widthRatio}%" class="table_cell" align="left" valign="top">
 	          		<xsl:call-template name="LFsToBRs">
